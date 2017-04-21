@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="apple-mobile-web-app-title" content="标题">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- iPhone -->
+    <link href="apple-touch-startup-image-320x460.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
+    <!-- iPhone (Retina) -->
+    <link href="apple-touch-startup-image-640x960.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPad (portrait) -->
+    <link href="apple-touch-startup-image-768x1004.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+    <!-- iPad (landscape) -->
+    <link href="apple-touch-startup-image-748x1024.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+    <!-- iPad (Retina, portrait) -->
+    <link href="apple-touch-startup-image-1536x2008.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- iPad (Retina, landscape) -->
+    <link href="apple-touch-startup-image-2048x1496.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <!-- 设计原图 -->
+    <link href="short_cut_114x114.png" rel="apple-touch-icon-precomposed">
+    <!-- 添加高光效果 -->
+    <link href="short_cut_114x114.png" rel="apple-touch-icon">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+</head>
+<body>
+<style>
+    body,html{
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+    div>div{
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+    }
+    #all{
+        position: relative;
+    }
+    #page1{
+        background-color: red;
+    }
+    #page2{
+        background-color: black;
+    }
+    #page3{
+        background-color: green;
+    }
+    #page4{
+        background-color: blue;
+    }
+    #page5{
+        background-color: yellow;
+    }
+</style>
+    <div id="all">
+        <div id="page1" class="page">1</div>
+        <div id="page2" class="page">2</div>
+        <div id="page3" class="page">3</div>
+        <div id="page4" class="page">4</div>
+        <div id="page5" class="page">5</div>
+    </div>
+    <script>
+        var start,height = document.body.clientHeight,pos= 0;
+        var page = document.getElementsByClassName("page");
+        for(var i=0;i<page.length;i++){
+            page[i].style.height = height+"px";
+        }
+//        document.addEventListener('touchmove', function (event) {
+//            event.preventDefault();
+//        });
+        document.addEventListener('touchstart', function (event) {
+            start = event.targetTouches[0].clientY;
+        });
+        document.addEventListener('touchend', function (event) {
+            console.log(event);
+            var end = event.changedTouches[0].clientY;
+            if(start-end>0){//向上滑
+                topCount(false);
+            }
+            else if(start-end<0){//向下滑
+                topCount(true);
+            }
+
+        });
+        function render(pos){
+            document.getElementById("all").style.top = pos+"px";
+        }
+        function topCount(add){
+            var end= 0;
+            if(add){
+               end =  +height>0?-height*4:pos+height;
+                animate(pos,end,add);
+            }
+            else{
+                end = pos-height<-height*4?0:pos-height;
+                animate(pos,end,add);
+            }
+
+        }
+        function animate(start,end,add){
+            var time;
+            if(add){
+                start += 1;
+            }
+            else{
+                start -= 1;
+            }
+            if(start!=end){
+                setTimeout(function(){
+                    animate(start,end,add)
+                    render(start);
+                },10)
+            }
+            else{
+                console.log(111);
+            }
+        }
+    </script>
+</body>
+</html>
